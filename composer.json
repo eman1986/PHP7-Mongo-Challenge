@@ -1,0 +1,13 @@
+{
+  "require": {
+    "php": ">=7.1.0",
+    "mongodb/mongodb": "^1.1",
+    "nesbot/carbon": "^1.22",
+    "ramsey/uuid": "^3.7"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  }
+}
