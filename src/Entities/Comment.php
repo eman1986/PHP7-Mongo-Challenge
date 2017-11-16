@@ -5,6 +5,10 @@ use MongoDB\BSON\Serializable;
 use MongoDB\BSON\UTCDateTime;
 use MongoDB\Model\BSONDocument;
 
+/**
+ * Class Comment
+ * @package App\Entities
+ */
 class Comment implements Serializable
 {
     /**
