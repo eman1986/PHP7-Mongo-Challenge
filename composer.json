@@ -3,7 +3,8 @@
     "php": ">=7.1.0",
     "mongodb/mongodb": "^1.1",
     "nesbot/carbon": "^1.22",
-    "ramsey/uuid": "^3.7"
+    "ramsey/uuid": "^3.7",
+    "sensiolabs/security-checker": "^4.1"
   },
   "autoload": {
     "psr-4": {

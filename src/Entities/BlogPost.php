@@ -47,27 +47,25 @@ class BlogPost implements Serializable
     public $comments = [];
 
     /**
-     * @param string $guid
+     * @param Comment $comment
      */
-    public function addCommentToBlogPost(string $guid): void
+    public function addCommentToBlogPost(Comment $comment): void
     {
-        $this->comments[] = $guid;
+        $this->comments[] = $comment->toArray();
     }
 
     /**
-     * @param string $guid
-     * @throws \OutOfRangeException
+     * @param Comment $comment
      */
-    public function removeCommentFromBlogPost(string $guid): void
+    public function removeCommentFromBlogPost(Comment $comment): void
     {
-        $i = \in_array($guid, $this->comments, true);
-
-        if ($i === false)
+        foreach ($this->comments as $key => $val)
         {
-            throw new \OutOfRangeException('Comment was not found in blog post.');
+            if ($val === $comment)
+            {
+                unset($this->comments[$key]);
+            }
         }
-
-        $this->comments = array_diff($this->comments, [$guid]);
     }
 
     /**
