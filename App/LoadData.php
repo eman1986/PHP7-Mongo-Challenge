@@ -15,7 +15,9 @@ $mongo = new Client(getenv('MONGO_CS'));
 $collection = $mongo->selectCollection('demo', 'BlogPosts');
 
 $firstComment = new Comment();
+$firstReply = new Comment();
 $secondComment = new Comment();
+$secondReply = new Comment();
 $first = new BlogPost();
 $first->createdOn = Carbon::now();
 $first->updatedOn = Carbon::now();
@@ -33,6 +35,28 @@ $firstComment->guid = Uuid::uuid4()->toString();
 $firstComment->author = 'AwesomeBob';
 $firstComment->content = 'First to comment on this first blog post! woot!';
 
+//
+// First reply to first comment
+//
+$firstReply->createdOn = Carbon::now();
+$firstReply->updatedOn = Carbon::now();
+$firstReply->guid = Uuid::uuid4()->toString();
+$firstReply->author = 'DrCheddar';
+$firstReply->content = 'Drat! I failed to be the first to comment, curse you AwesomeBob!!';
+
+$firstComment->addReplyToComment($firstReply);
+
+//
+// Second comment to post
+//
+$secondReply->createdOn = Carbon::now();
+$secondReply->updatedOn = Carbon::now();
+$secondReply->guid = Uuid::uuid4()->toString();
+$secondReply->author = 'AwesomeBob';
+$secondReply->content = 'Sorry DrCheddar, you just was too slow :P';
+
+$firstComment->addReplyToComment($secondReply);
+
 $first->addCommentToBlogPost($firstComment);
 
 //
@@ -41,9 +65,9 @@ $first->addCommentToBlogPost($firstComment);
 $secondComment->createdOn = Carbon::now();
 $secondComment->updatedOn = Carbon::now();
 $secondComment->guid = Uuid::uuid4()->toString();
-$secondComment->author = 'DrCheddar';
-$secondComment->content = 'Drat! I failed to be the first to comment, curse you AwesomeBob!!';
+$secondComment->author = 'MrsPacMan';
+$secondComment->content = 'I like this post, very engaging compared to those ghosts I keep dealing with.';
 
 $first->addCommentToBlogPost($secondComment);
 
-$collection->insertOne($first->bsonSerialize());
+$collection->insertOne($first);

@@ -37,6 +37,33 @@ class Comment implements Serializable
     public $content;
 
     /**
+     * @var array
+     */
+    public $replies = [];
+
+    /**
+     * @param Comment $comment
+     */
+    public function addReplyToComment(Comment $comment): void
+    {
+        $this->replies[] = $comment->toArray();
+    }
+
+    /**
+     * @param Comment $comment
+     */
+    public function removeReplyFromComment(Comment $comment): void
+    {
+        foreach ($this->replies as $key => $val)
+        {
+            if ($val === $comment)
+            {
+                unset($this->replies[$key]);
+            }
+        }
+    }
+
+    /**
      * @return array
      */
     public function bsonSerialize(): array
@@ -45,7 +72,8 @@ class Comment implements Serializable
             'CreatedOn' => new UTCDateTime($this->createdOn),
             'UpdatedOn' => new UTCDateTime($this->updatedOn),
             'Guid' => $this->guid,
-            'Content' => $this->content
+            'Content' => $this->content,
+            'Replies' => $this->replies
         ];
     }
 
@@ -59,6 +87,7 @@ class Comment implements Serializable
         $this->updatedOn = $document['UpdatedOn']->toDateTime();
         $this->guid = $document['Guid'];
         $this->content = $document['Content'];
+        $this->replies = $document['Replies']->getArrayCopy();
     }
 
     /**
@@ -71,7 +100,8 @@ class Comment implements Serializable
             'CreatedOn' => $this->createdOn,
             'UpdatedOn' => $this->updatedOn,
             'Guid' => $this->guid,
-            'Content' => $this->content
+            'Content' => $this->content,
+            'Replies' => $this->replies
         ];
     }
 }
