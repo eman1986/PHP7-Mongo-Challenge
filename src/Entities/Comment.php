@@ -83,8 +83,12 @@ class Comment implements Serializable
      */
     public function map(BSONDocument $document): void
     {
-        $this->createdOn = $document['CreatedOn']->toDateTime();
-        $this->updatedOn = $document['UpdatedOn']->toDateTime();
+        $this->createdOn = $document['CreatedOn'] instanceof BSONDocument ?
+            new \DateTime($document['CreatedOn']['date']) :
+            $document['CreatedOn']->toDateTime();
+        $this->updatedOn = $document['UpdatedOn'] instanceof BSONDocument ?
+            new \DateTime($document['UpdatedOn']['date']) :
+            $document['UpdatedOn']->toDateTime();
         $this->guid = $document['Guid'];
         $this->content = $document['Content'];
         $this->replies = $document['Replies']->getArrayCopy();
